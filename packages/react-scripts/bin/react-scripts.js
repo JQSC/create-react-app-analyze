@@ -15,6 +15,7 @@ process.on('unhandledRejection', err => {
   throw err;
 });
 
+// child_process.spawn 用于启动子进程，cross-spawn兼容不同平台的启动
 const spawn = require('react-dev-utils/crossSpawn');
 const args = process.argv.slice(2);
 
@@ -24,6 +25,7 @@ const scriptIndex = args.findIndex(
 const script = scriptIndex === -1 ? args[0] : args[scriptIndex];
 const nodeArgs = scriptIndex > 0 ? args.slice(0, scriptIndex) : [];
 
+// 参数顺序的疑惑，路径前的参数的作用是什么?
 if (['build', 'eject', 'start', 'test'].includes(script)) {
   const result = spawn.sync(
     process.execPath,
@@ -36,14 +38,14 @@ if (['build', 'eject', 'start', 'test'].includes(script)) {
     if (result.signal === 'SIGKILL') {
       console.log(
         'The build failed because the process exited too early. ' +
-          'This probably means the system ran out of memory or someone called ' +
-          '`kill -9` on the process.'
+        'This probably means the system ran out of memory or someone called ' +
+        '`kill -9` on the process.'
       );
     } else if (result.signal === 'SIGTERM') {
       console.log(
         'The build failed because the process exited too early. ' +
-          'Someone might have called `kill` or `killall`, or the system could ' +
-          'be shutting down.'
+        'Someone might have called `kill` or `killall`, or the system could ' +
+        'be shutting down.'
       );
     }
     process.exit(1);
