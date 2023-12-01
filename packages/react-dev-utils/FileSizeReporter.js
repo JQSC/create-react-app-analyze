@@ -132,12 +132,15 @@ function getDifferenceLabel(currentSize, previousSize) {
 
 function measureFileSizesBeforeBuild(buildFolder) {
   return new Promise(resolve => {
+    // 递归读取文件和子目录
     recursive(buildFolder, (err, fileNames) => {
       var sizes;
       if (!err && fileNames) {
         sizes = fileNames.filter(canReadAsset).reduce((memo, fileName) => {
           var contents = fs.readFileSync(fileName);
+          // 提取原始文件名
           var key = removeFileNameHash(buildFolder, fileName);
+          // 计算文件大小
           memo[key] = gzipSize(contents);
           return memo;
         }, {});

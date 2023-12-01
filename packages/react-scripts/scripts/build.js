@@ -69,8 +69,10 @@ checkBrowsers(paths.appPath, isInteractive)
   .then(previousFileSizes => {
     // Remove all content but keep the directory so that
     // if you're in it, you don't end up in Trash
+    // 清空build目录
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
+    // 复制public目录到build目录下
     copyPublicFolder();
     // Start the webpack build
     return build(previousFileSizes);
